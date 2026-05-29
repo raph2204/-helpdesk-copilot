@@ -1,0 +1,12 @@
+**/node_modules/
+backend/.env
+frontend/.env
+
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+dist/
+build/
+.vscode/
+helpdesk-copilot-agent-patch/
