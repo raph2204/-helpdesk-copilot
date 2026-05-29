@@ -20,6 +20,7 @@ import {
   getConsensusHistory,
   searchReferences,
   uploadKnowledgeDocument,
+  getMockTickets,
   searchKnowledge
 } from "./api-client";
 import { getAutomationCandidates, resolveAutomationTask } from "./automation-engine";
@@ -123,6 +124,7 @@ export default function App() {
 
   const [consensus, setConsensus] = useState(DEFAULT_ANALYSIS);
   const [similarTickets, setSimilarTickets] = useState([]);
+  const [mockTickets, setMockTickets] = useState([]);
   const [trustedReferences, setTrustedReferences] = useState([]);
   const [knowledgeDocs, setKnowledgeDocs] = useState([]);
   const [outcomes, setOutcomes] = useState([]);
@@ -300,6 +302,15 @@ export default function App() {
     }
   }
 
+  async function handleLoadMockTickets() {
+  try {
+    const result = await getMockTickets();
+    setMockTickets(result.tickets || []);
+  } catch (err) {
+    setError(err.message);
+  }
+}
+
   function selectEvidence(row) {
     setTitle(row.ticket_summary || row.title || title);
     setIssue(row.ticket_summary || row.issue || issue);
@@ -311,6 +322,13 @@ export default function App() {
     }));
     setTab("remediation");
   }
+
+  function selectMockTicket(ticket) {
+  setTitle(ticket.title || "");
+  setRequester(ticket.requester || "");
+  setIssue(ticket.description || "");
+  setNotes(`Source: ${ticket.source || "Mock"}`);
+}
 
   function selectTask(task) {
     setSelectedTask(task);
@@ -365,7 +383,26 @@ export default function App() {
             <div className="button-row">
               <button onClick={handleSaveTicket}>Save Ticket</button>
               <button onClick={handleSearchEvidence}>Search Evidence</button>
+              <button onClick={handleLoadMockTickets}>Load Mock Tickets</button>
             </div>
+              {mockTickets.length > 0 && (
+  <div className="mock-ticket-list">
+    <h4>Mock Tickets</h4>
+
+    {mockTickets.map((ticket) => (
+      <div
+        key={ticket.id}
+        className="task"
+        onClick={() => selectMockTicket(ticket)}
+      >
+        <strong>{ticket.title}</strong>
+        <p>{ticket.description}</p>
+        <small>{ticket.requester}</small>
+      </div>
+    ))}
+  </div>
+)}
+
           </Panel>
         </aside>
 
