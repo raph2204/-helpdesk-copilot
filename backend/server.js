@@ -10,6 +10,7 @@ import { executionRoutes } from "./execution-routes.js";
 import { dashboardRoutes } from "./dashboard-routes.js";
 import { referenceRoutes } from "./reference-routes.js";
 import { runbookRoutes } from "./runbook-routes.js";
+import { mockTicketRoutes } from "./mock-ticket-routes.js";
 
 initDb();
 
@@ -26,6 +27,7 @@ app.use("/api", dashboardRoutes);
 app.use("/api", referenceRoutes);
 app.use("/api", runbookRoutes);
 app.use("/api", agentRoutes);
+app.use("/api", mockTicketRoutes);
 
 const port = Number(process.env.PORT || 3001);
 app.listen(port, () => {
