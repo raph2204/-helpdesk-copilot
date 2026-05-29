@@ -50,9 +50,9 @@ Example:
 
 ```text
 PORT=3001
-OPENAI_API_KEY=your_key_here
-ANTHROPIC_API_KEY=your_key_here
-XAI_API_KEY=your_key_here
+OPENAI_API_KEY=<add-your-key-locally-only>
+ANTHROPIC_API_KEY=<add-your-key-locally-only>
+XAI_API_KEY=<add-your-key-locally-only>
 ```
 
 Without API keys, the app still runs and uses a local fallback consensus response.
