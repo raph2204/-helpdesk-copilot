@@ -50,6 +50,8 @@ export const getExecutionHistory = () => apiGet("/executions/history");
 
 export const clearExecutionHistory = () => apiPost("/executions/clear", {});
 
+export const getMockTickets = () => apiGet("/mock-tickets");
+
 export const getDashboardSummary = () => apiGet("/dashboard/summary");
 
 export const saveConsensusDecision = (payload) => apiPost("/consensus/save", payload);
@@ -70,5 +72,8 @@ export const uploadKnowledgeDocument = (file) => {
     return res.json();
   });
 };
+
+
+
 
 export const searchKnowledge = (payload) => apiPost("/knowledge/search", payload);
