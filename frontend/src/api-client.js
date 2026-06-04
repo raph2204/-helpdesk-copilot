@@ -12,12 +12,16 @@ async function apiPost(path, body) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body || {})
   });
+
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
 async function apiDelete(path) {
-  const res = await fetch(`${API_BASE}${path}`, { method: "DELETE" });
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "DELETE"
+  });
+
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
@@ -50,8 +54,6 @@ export const getExecutionHistory = () => apiGet("/executions/history");
 
 export const clearExecutionHistory = () => apiPost("/executions/clear", {});
 
-export const getMockTickets = () => apiGet("/mock-tickets");
-
 export const getDashboardSummary = () => apiGet("/dashboard/summary");
 
 export const saveConsensusDecision = (payload) => apiPost("/consensus/save", payload);
@@ -60,9 +62,22 @@ export const getConsensusHistory = () => apiGet("/consensus/history");
 
 export const searchReferences = (payload) => apiPost("/references/search", payload);
 
+export const searchKnowledge = (payload) => apiPost("/knowledge/search", payload);
+
+export const getAgentTickets = () => apiGet("/agent/new-tickets");
+
+export const getMockTickets = getAgentTickets;
+
 export const uploadKnowledgeDocument = (file) => {
   const formData = new FormData();
-  formData.append("file", file);
+
+  if (file?.file) {
+    formData.append("file", file.file);
+    formData.append("title", file.title || file.file.name || "");
+    formData.append("tags", file.tags || "");
+  } else {
+    formData.append("file", file);
+  }
 
   return fetch(`${API_BASE}/knowledge/upload`, {
     method: "POST",
@@ -72,8 +87,3 @@ export const uploadKnowledgeDocument = (file) => {
     return res.json();
   });
 };
-
-
-
-
-export const searchKnowledge = (payload) => apiPost("/knowledge/search", payload);

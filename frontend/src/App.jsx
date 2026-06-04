@@ -21,6 +21,7 @@ import {
   searchReferences,
   uploadKnowledgeDocument,
   getMockTickets,
+  getAgentTickets,
   searchKnowledge
 } from "./api-client";
 import { getAutomationCandidates, resolveAutomationTask } from "./automation-engine";
@@ -304,7 +305,7 @@ export default function App() {
 
   async function handleLoadMockTickets() {
   try {
-    const result = await getMockTickets();
+    const result = await getAgentTickets();
     setMockTickets(result.tickets || []);
   } catch (err) {
     setError(err.message);
